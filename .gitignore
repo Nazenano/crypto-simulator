@@ -1,0 +1,30 @@
+# Docker
+docker-compose.yml
+*.log
+
+# Database
+*.mdf
+*.ldf
+*.bak
+
+# Environment and Secrets
+.env
+*.env
+appsettings.json
+appsettings.Development.json
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.suo
+*.user
+
+# Temporary Files
+*.tmp
+*.temp
+/tmp/
+
+# OS Files
+.DS_Store
+Thumbs.db
