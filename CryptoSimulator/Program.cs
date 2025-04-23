@@ -1,3 +1,6 @@
+using CryptoSimulator.DataContext;
+using Microsoft.EntityFrameworkCore;
+
 namespace CryptoSimulator;
 
 public class Program
@@ -5,6 +8,12 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        // Controllers
+        // builder.Services.AddControllers();
+
+        // Database connection
+        builder.Services.AddDbContext<SQL>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
 
         // Add services to the container.
         builder.Services.AddAuthorization();
@@ -31,7 +40,7 @@ public class Program
 
         app.MapGet("/weatherforecast", (HttpContext httpContext) =>
         {
-            var forecast =  Enumerable.Range(1, 5).Select(index =>
+            var forecast = Enumerable.Range(1, 5).Select(index =>
                 new WeatherForecast
                 {
                     Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
