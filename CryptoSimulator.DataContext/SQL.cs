@@ -24,5 +24,20 @@ public class SQL : DbContext
             .HasOne(w => w.User)
             .WithOne(u => u.Wallet)
             .HasForeignKey<Wallet>(w => w.UserId);
+
+        modelBuilder.Entity<Portfolio>()
+            .HasOne(p => p.User)
+            .WithMany(u => u.Portfolios)
+            .HasForeignKey(p => p.UserId);
+
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.User)
+            .WithMany(u => u.Transactions)
+            .HasForeignKey(t => t.UserId);
+
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.CryptoCurrency)
+            .WithMany(c => c.Transactions)
+            .HasForeignKey(t => t.CryptoId);
     }
 }

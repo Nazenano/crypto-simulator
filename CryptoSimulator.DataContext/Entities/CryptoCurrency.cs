@@ -13,6 +13,9 @@ public class CryptoCurrency : AbstractEntity
     [Required]
     public decimal Price { get; set; }
 
+    [Required]
+    public decimal TotalSupply { get; set; }
+
     // Navigation props
     public ICollection<Portfolio> Portfolios { get; set; }
     public ICollection<Transaction> Transactions { get; set; }
