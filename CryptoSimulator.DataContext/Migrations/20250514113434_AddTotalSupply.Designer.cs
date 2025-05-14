@@ -4,6 +4,7 @@ using CryptoSimulator.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoSimulator.DataContext.Migrations
 {
     [DbContext(typeof(SQL))]
-    partial class SQLModelSnapshot : ModelSnapshot
+    [Migration("20250514113434_AddTotalSupply")]
+    partial class AddTotalSupply
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +60,9 @@ namespace CryptoSimulator.DataContext.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CryptoCurrencyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CryptoId")
                         .HasColumnType("int");
 
@@ -66,11 +72,18 @@ namespace CryptoSimulator.DataContext.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CryptoCurrencyId");
 
                     b.HasIndex("CryptoId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Portfolios");
                 });
@@ -107,6 +120,9 @@ namespace CryptoSimulator.DataContext.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CryptoCurrencyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CryptoId")
                         .HasColumnType("int");
 
@@ -125,11 +141,18 @@ namespace CryptoSimulator.DataContext.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CryptoCurrencyId");
 
                     b.HasIndex("CryptoId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Transactions");
                 });
@@ -189,17 +212,25 @@ namespace CryptoSimulator.DataContext.Migrations
 
             modelBuilder.Entity("CryptoSimulator.DataContext.Entities.Portfolio", b =>
                 {
-                    b.HasOne("CryptoSimulator.DataContext.Entities.CryptoCurrency", "CryptoCurrency")
+                    b.HasOne("CryptoSimulator.DataContext.Entities.CryptoCurrency", null)
                         .WithMany("Portfolios")
+                        .HasForeignKey("CryptoCurrencyId");
+
+                    b.HasOne("CryptoSimulator.DataContext.Entities.CryptoCurrency", "CryptoCurrency")
+                        .WithMany()
                         .HasForeignKey("CryptoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CryptoSimulator.DataContext.Entities.User", "User")
-                        .WithMany("Portfolios")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CryptoSimulator.DataContext.Entities.User", null)
+                        .WithMany("Portfolios")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("CryptoCurrency");
 
@@ -219,17 +250,25 @@ namespace CryptoSimulator.DataContext.Migrations
 
             modelBuilder.Entity("CryptoSimulator.DataContext.Entities.Transaction", b =>
                 {
-                    b.HasOne("CryptoSimulator.DataContext.Entities.CryptoCurrency", "CryptoCurrency")
+                    b.HasOne("CryptoSimulator.DataContext.Entities.CryptoCurrency", null)
                         .WithMany("Transactions")
+                        .HasForeignKey("CryptoCurrencyId");
+
+                    b.HasOne("CryptoSimulator.DataContext.Entities.CryptoCurrency", "CryptoCurrency")
+                        .WithMany()
                         .HasForeignKey("CryptoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CryptoSimulator.DataContext.Entities.User", "User")
-                        .WithMany("Transactions")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CryptoSimulator.DataContext.Entities.User", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("CryptoCurrency");
 
